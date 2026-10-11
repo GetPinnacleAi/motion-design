@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinnacle Ai Webinar Video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1d1d1f; --paper:#f5f5f7; --gray:#86868b; --gray2:#6e6e73;
+    --blue:#2997ff; --violet:#a259ff; --pink:#ff5ca8; --green:#30d158; --amber:#ff9f0a;
+    --display:'Inter Display','Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;background:#000;overflow:hidden}
+  body{font-family:var(--display);-webkit-font-smoothing:antialiased;color:var(--paper)}
+  #stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;background:#000;transform-origin:0 0}
+  .scene{position:absolute;inset:0;opacity:0;overflow:hidden}
+  .scene.dark{background:#000;color:var(--paper)}
+  .scene.light{background:var(--paper);color:var(--ink)}
+  .abs{position:absolute}
+  .center{left:0;width:1920px;text-align:center}
+  .h0{font-weight:700;font-size:200px;letter-spacing:-0.045em;line-height:1}
+  .h1{font-weight:700;font-size:128px;letter-spacing:-0.04em;line-height:1.04}
+  .h2{font-weight:700;font-size:96px;letter-spacing:-0.035em;line-height:1.05}
+  .sub{font-weight:500;font-size:38px;letter-spacing:-0.01em;line-height:1.35;color:var(--gray)}
+  .eyebrow{font-weight:600;font-size:30px;letter-spacing:0;margin-bottom:22px}
+  .grad{background:linear-gradient(90deg,var(--blue),var(--violet) 55%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em}
+  .muted{color:var(--gray)}
+  .glow{position:absolute;border-radius:50%;pointer-events:none}
+
+  /* chips */
+  .chip{position:absolute;display:flex;align-items:center;gap:16px;padding:22px 34px;border-radius:999px;background:#1c1c1e;border:1px solid #2c2c2e;font-size:34px;font-weight:600;white-space:nowrap}
+  .dot{width:18px;height:18px;border-radius:50%}
+  .badge{position:absolute;right:-10px;top:-12px;min-width:44px;height:44px;border-radius:22px;background:#ff3b30;color:#fff;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 12px}
+
+  /* feature cards */
+  .fcard{position:absolute;width:420px;height:178px;border-radius:30px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.04),0 18px 40px rgba(0,0,0,.06);padding:34px 36px;display:flex;flex-direction:column;justify-content:space-between}
+  .fcard svg{width:52px;height:52px}
+  .fcard .lbl{font-size:34px;font-weight:650;letter-spacing:-0.02em;color:var(--ink)}
+  .ring{position:absolute;inset:-3px;border-radius:33px;border:3px solid transparent;background:linear-gradient(90deg,var(--blue),var(--violet),var(--pink)) border-box;-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0}
+
+  /* window */
+  .win{position:absolute;border-radius:28px;background:#1c1c1e;border:1px solid #333;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.6)}
+  .winbar{height:56px;display:flex;align-items:center;gap:12px;padding:0 24px;border-bottom:1px solid #2c2c2e}
+  .winbar i{width:16px;height:16px;border-radius:50%;display:block}
+  .row{position:absolute;left:0;width:380px;height:104px;padding:20px 22px;display:flex;gap:18px;border-bottom:1px solid #2a2a2c}
+  .av{width:60px;height:60px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;color:#fff}
+  .rname{font-size:24px;font-weight:650;color:#f5f5f7;display:flex;justify-content:space-between;width:260px}
+  .rprev{font-size:21px;color:#8e8e93;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:260px}
+  .tag{font-size:16px;font-weight:700;padding:3px 10px;border-radius:8px;color:#fff;align-self:center}
+  .bub{position:absolute;max-width:420px;padding:18px 24px;border-radius:26px;font-size:25px;line-height:1.35;font-weight:500}
+  .bub.in{background:#2c2c2e;color:#f5f5f7;border-bottom-left-radius:8px}
+  .bub.out{background:var(--blue);color:#fff;border-bottom-right-radius:8px}
+
+  /* phone */
+  .phone{position:absolute;width:430px;height:880px;border-radius:72px;background:#111;padding:16px;box-shadow:0 50px 100px rgba(0,0,0,.25),inset 0 0 0 2px #333}
+  .screen{position:relative;width:100%;height:100%;border-radius:58px;overflow:hidden;background:#fff}
+  .island{position:absolute;left:50%;top:18px;width:120px;height:34px;margin-left:-60px;border-radius:20px;background:#000;z-index:5}
+  .pbub{position:absolute;max-width:300px;padding:14px 18px;border-radius:22px;font-size:21px;line-height:1.35;font-weight:500}
+  .pbub.in{left:22px;background:#e9e9eb;color:#000;border-bottom-left-radius:6px}
+  .pbub.out{right:22px;background:#0a84ff;color:#fff;border-bottom-right-radius:6px}
+
+  /* kanban */
+  .col{position:absolute;width:400px;height:600px;border-radius:28px;background:#111113;border:1px solid #232326}
+  .colh{position:absolute;left:28px;top:24px;font-size:26px;font-weight:650;color:#f5f5f7;display:flex;gap:12px;align-items:center}
+  .cnt{font-size:20px;color:#8e8e93;background:#232326;border-radius:12px;padding:2px 12px}
+  .kcard{position:absolute;width:360px;height:118px;border-radius:20px;background:#1f1f22;border:1px solid #2e2e32;padding:20px 24px}
+  .kcard .t{font-size:25px;font-weight:650;color:#f5f5f7}
+  .kcard .m{font-size:20px;color:#8e8e93;margin-top:8px;display:flex;justify-content:space-between}
+  .flag{position:absolute;left:24px;bottom:-22px;font-size:18px;font-weight:700;background:var(--amber);color:#000;border-radius:10px;padding:6px 12px;white-space:nowrap}
+
+  /* calendar */
+  .cal{position:absolute;border-radius:32px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.08)}
+  .evt{position:absolute;border-radius:12px;padding:10px 14px;font-size:19px;font-weight:650;line-height:1.25}
+  .toast{position:absolute;display:flex;align-items:center;gap:18px;background:rgba(29,29,31,.92);color:#fff;border-radius:22px;padding:22px 28px;font-size:24px;font-weight:600;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+  .check{width:40px;height:40px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex:none}
+
+  /* review cards */
+  .rcard{position:absolute;width:520px;height:400px;border-radius:32px;background:#1c1c1e;border:1px solid #2c2c2e;padding:40px}
+  .rlabel{font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8e8e93;margin-bottom:26px}
+  .stars{display:flex;gap:10px;margin-bottom:22px}
+  .stars svg{width:48px;height:48px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:64px;padding:0 34px;border-radius:32px;font-size:25px;font-weight:700}
+
+  /* chat glass */
+  .glass{position:absolute;border-radius:36px;background:rgba(28,28,30,.55);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}
+  .typing{position:absolute;left:36px;display:flex;gap:8px;padding:20px 24px;background:#2c2c2e;border-radius:26px;border-bottom-left-radius:8px}
+  .typing b{width:12px;height:12px;border-radius:50%;background:#8e8e93;display:block}
+
+  /* onboarding */
+  .ocard{position:absolute;width:680px;height:330px;border-radius:36px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.04),0 24px 60px rgba(0,0,0,.07);padding:48px 52px}
+  .onum{font-size:30px;font-weight:700;margin-bottom:26px}
+  .otitle{font-size:56px;font-weight:700;letter-spacing:-0.03em;color:var(--ink)}
+  .otext{font-size:32px;font-weight:500;color:var(--gray2);margin-top:14px}
+  .tick{display:flex;align-items:center;gap:14px;font-size:30px;font-weight:600;color:var(--ink)}
+
+  .pill{display:inline-flex;align-items:center;gap:12px;padding:12px 22px;border-radius:999px;font-size:22px;font-weight:700}
+
+  /* preview controls */
+  #ui{position:fixed;left:0;right:0;bottom:0;padding:12px 16px;display:flex;gap:14px;align-items:center;background:rgba(0,0,0,.7);font:500 14px/1 -apple-system,Inter,sans-serif;color:#ccc;z-index:10}
+  #ui input{flex:1}
+  #ui button{background:#333;color:#fff;border:0;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
+  body.render #ui{display:none}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div id="ui"><button id="play">Pause</button><input id="scrub" type="range" min="0" max="1000" value="0"><span id="tc">0:00</span></div>
+
+<script>
+/* ---------- timing helpers (pure functions of t, so every frame is reproducible) ---------- */
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const E={
+  expo:t=>t>=1?1:1-Math.pow(2,-10*t),
+  out:t=>1-Math.pow(1-t,3),
+  inOut:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,
+  back:t=>{const c1=1.5,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)},
+  lin:t=>t
+};
+const P=(t,a,b,e=E.expo)=>e(clamp((t-a)/(b-a)));
+const lerp=(a,b,k)=>a+(b-a)*k;
+function S(el,{o=1,x=0,y=0,s=1,blur=0,r=0}={}){
+  el.style.opacity=o.toFixed(4);
+  el.style.transform=`translate(${x.toFixed(2)}px,${y.toFixed(2)}px) scale(${s.toFixed(4)}) rotate(${r.toFixed(2)}deg)`;
+  el.style.filter=blur>0.05?`blur(${blur.toFixed(2)}px)`:'none';
+}
+/* Apple-style text reveal: rise + unblur in, soften out */
+function R(el,t,a,b=1e9,{d=1.1,dy=48,blur=14,s0=1,out=.6}={}){
+  const i=P(t,a,a+d), o=1-P(t,b,b+out,E.inOut);
+  S(el,{o:i*o,y:(1-i)*dy-(1-o)*24,blur:(1-i)*blur+(1-o)*10,s:lerp(s0,1,i)});
+}
+const star=c=>`<svg viewBox="0 0 24 24"><path fill="${c}" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>`;
+const checkSvg=`<svg width="22" height="22" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/* ---------- icons for the feature grid ---------- */
+const ic=(d)=>`<svg viewBox="0 0 48 48" fill="none" stroke="url(#g)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#2997ff"/><stop offset=".55" stop-color="#a259ff"/><stop offset="1" stop-color="#ff5ca8"/></linearGradient></defs>${d}</svg>`;
+const ICONS={
+  crm:ic('<rect x="5" y="8" width="10" height="32" rx="3"/><rect x="19" y="8" width="10" height="22" rx="3"/><rect x="33" y="8" width="10" height="14" rx="3"/>'),
+  web:ic('<rect x="5" y="8" width="38" height="32" rx="5"/><path d="M5 17h38"/><circle cx="11" cy="12.5" r=".6"/><path d="M13 26h12M13 32h20"/>'),
+  cal:ic('<rect x="6" y="10" width="36" height="32" rx="5"/><path d="M6 19h36M16 5v9M32 5v9"/><path d="M17 30l5 5 9-10"/>'),
+  inbox:ic('<path d="M8 10h32a3 3 0 013 3v18a3 3 0 01-3 3H22l-9 7v-7H8a3 3 0 01-3-3V13a3 3 0 013-3z"/><path d="M14 20h20M14 26h12"/>'),
+  follow:ic('<path d="M40 24a16 16 0 11-5-11.6"/><path d="M40 8v8h-8"/><path d="M18 24l4 4 8-8"/>'),
+  rev:ic('<path d="M24 6l5.3 11 12 1.5-8.9 8.3 2.4 12L24 33l-10.8 5.8 2.4-12-8.9-8.3 12-1.5z"/>'),
+  mkt:ic('<rect x="5" y="11" width="38" height="27" rx="4"/><path d="M6 13l18 13 18-13"/>'),
+  pay:ic('<rect x="4" y="11" width="40" height="27" rx="5"/><path d="M4 19h40M11 30h8"/>'),
+  ai:ic('<path d="M24 5c1.5 8 4 10.5 12 12-8 1.5-10.5 4-12 12-1.5-8-4-10.5-12-12 8-1.5 10.5-4 12-12z"/><path d="M37 29c.8 4 2 5.2 6 6-4 .8-5.2 2-6 6-.8-4-2-5.2-6-6 4-.8 5.2-2 6-6z"/>')
+};
+
+/* ---------- scenes ---------- */
+const SCENES=[];
+const addScene=(o)=>SCENES.push(o);
+
+/* 1. Intro */
+addScene({dur:7,theme:'dark',html:`
+  <div class="glow" id="g1" style="left:460px;top:-40px;width:1000px;height:1000px;background:radial-gradient(circle,rgba(162,89,255,.45),rgba(41,151,255,.18) 45%,transparent 70%)"></div>
+  <div class="abs center h0" id="wm" style="top:350px">Pinnacle <span class="grad">Ai</span></div>
+  <div class="abs center sub" id="tag" style="top:600px;font-size:46px">The all-in-one growth platform for small business.</div>`,
+  update(t,$){
+    S($('#g1'),{o:P(t,0,3)*0.9,s:lerp(.4,1.1,P(t,0,6,E.out))});
+    R($('#wm'),t,.7,1e9,{d:1.6,dy:30,blur:24,s0:1.06});
+    R($('#tag'),t,2.3);
+  }});
+
+/* 2. Problem */
+const CH=[
+  ['Text','#30d158',3,-560,-150],['Email','#2997ff',7,420,-190],['Instagram','#ff5ca8',2,-640,90],
+  ['Facebook','#0a84ff',4,560,60],['WhatsApp','#25d366',1,-300,260],['Phone calls','#ffd60a',2,240,280],
+  ['Live chat','#a259ff',5,-60,-40],['Reviews','#ff9f0a',6,700,-20]
+];
+addScene({dur:16,theme:'dark',html:`
+  <div class="abs center h2" id="p1" style="top:120px">Your customers are reaching out.</div>
+  <div class="abs center h2" id="p2" style="top:120px">From more places than ever.</div>
+  ${CH.map((c,i)=>`<div class="chip" id="c${i}" style="left:${960+c[3]-120}px;top:${560+c[4]-40}px"><span class="dot" style="background:${c[1]}"></span>${c[0]}<span class="badge" id="b${i}">${c[2]}</span></div>`).join('')}
+  <div class="abs center h1" id="p3" style="top:400px">And leads slip<br><span class="muted">through the cracks.</span></div>`,
+  update(t,$){
+    R($('#p1'),t,.3,4.9); R($('#p2'),t,5.4,9.9);
+    const fall=P(t,10,12,E.inOut);
+    CH.forEach((c,i)=>{
+      const a=1.0+i*.32, k=P(t,a,a+.9,E.back), ki=P(t,a,a+.5);
+      const spread=lerp(1,1.12,P(t,5.4,8,E.inOut));
+      const fx=Math.sin(t*.55+i*1.7)*14, fy=Math.cos(t*.5+i*2.3)*12;
+      S($('#c'+i),{o:ki*(1-fall*.85),x:c[3]*(spread-1)+fx,y:fy+fall*(120+i*18),s:lerp(.6,1,k),blur:fall*6,r:fall*(i%2?6:-6)});
+      // unread counts climb while scene 2b plays
+      const extra=Math.floor(P(t,5.6+i*.3,9,E.lin)*(3+i%4));
+      $('#b'+i).textContent=c[2]+extra;
+    });
+    R($('#p3'),t,10.8,1e9,{d:1.4});
+  }});
+
+/* 3. Reveal */
+addScene({dur:9,theme:'dark',html:`
+  <div class="abs center h1" id="q1" style="top:330px">What if it all lived<br>in one place?</div>
+  <div class="glow" id="g3" style="left:360px;top:-60px;width:1200px;height:1200px;background:radial-gradient(circle,rgba(41,151,255,.35),rgba(162,89,255,.25) 40%,rgba(255,92,168,.08) 60%,transparent 72%)"></div>
+  <div class="abs center sub" id="q2" style="top:330px;font-size:44px">Introducing</div>
+  <div class="abs center h0" id="q3" style="top:410px;font-size:230px">Pinnacle <span class="grad">Ai</span></div>`,
+  update(t,$){
+    R($('#q1'),t,.3,3.9);
+    S($('#g3'),{o:P(t,4.4,6.5)*.95,s:lerp(.5,1,P(t,4.4,8,E.out))});
+    R($('#q2'),t,4.7); R($('#q3'),t,5.1,1e9,{d:1.8,blur:26,s0:1.08,dy:20});
+  }});
+
+/* 4. Features */
+const FEAT=[['crm','CRM & Pipelines'],['inbox','Unified Inbox'],['follow','Automated Follow-up'],
+  ['web','Funnels & Websites'],['cal','Calendars & Booking'],['rev','Reviews'],
+  ['mkt','Email & SMS Marketing'],['pay','Payments'],['ai','AI Employees']];
+addScene({dur:18,theme:'light',html:`
+  <div class="abs center h2" id="f1" style="top:90px">Everything you need.</div>
+  <div class="abs center sub" id="f2" style="top:206px;font-size:44px">Included in every account.</div>
+  <div class="abs" id="grid" style="left:0;top:0;width:1920px;height:1080px">
+  ${FEAT.map((f,i)=>{const cx=i%3,cy=Math.floor(i/3);return `<div class="fcard" id="fc${i}" style="left:${(1920-1316)/2+cx*448}px;top:${360+cy*206}px">${ICONS[f[0]]}<div class="lbl">${f[1]}</div><div class="ring" id="fr${i}"></div></div>`}).join('')}
+  </div>`,
+  update(t,$){
+    R($('#f1'),t,.3,8.6); R($('#f2'),t,.7,8.6);
+    const zoom=P(t,8.8,10.6,E.inOut);
+    S($('#grid'),{y:-150*zoom,s:lerp(1,1.08,zoom)});
+    FEAT.forEach((f,i)=>{
+      const a=1.4+i*.2, k=P(t,a,a+1,E.out);
+      // after the build, light each card in turn
+      const h0=10.4+i*.78, hl=P(t,h0,h0+.35)*(1-P(t,h0+.9,h0+1.3));
+      S($('#fc'+i),{o:P(t,a,a+.6),y:(1-k)*60,s:lerp(.92,1,k)*(1+hl*.04)});
+      $('#fr'+i).style.opacity=hl.toFixed(3);
+    });
+  }});
+
+/* 5. Inbox */
+const MSG=[
+  ['Dana K.','DK','#5e5ce6','Email','#2997ff','Quick question about my invoice'],
+  ['Mike R.','MR','#0a84ff','Facebook','#0a84ff','Can I get a quote for next week?'],
+  ['Jess T.','JT','#ff375f','Instagram','#ff5ca8','Love your work! What does it cost?'],
+  ['Carlos V.','CV','#30b0c7','WhatsApp','#25d366','Running 10 minutes late'],
+  ['Priya S.','PS','#ff9f0a','SMS','#30d158','Can we move my booking?'],
+  ['Website visitor','WV','#a259ff','Live chat','#a259ff','Do you service the Westside?']
+];
+addScene({dur:18,theme:'dark',html:`
+  <div class="abs" style="left:120px;top:290px;width:700px">
+    <div class="eyebrow grad" id="i0">Unified Inbox</div>
+    <div class="h2" id="i1" style="font-size:78px">One inbox.</div>
+    <div class="h2 muted" id="i2" style="font-size:78px;white-space:nowrap">Every conversation.</div>
+    <div class="sub" id="i3" style="margin-top:34px">Texts, email, Facebook, Instagram, WhatsApp and live chat. All in one place.</div>
+  </div>
+  <div class="win" id="iw" style="left:860px;top:150px;width:920px;height:780px">
+    <div class="winbar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span style="margin-left:18px;font-size:20px;color:#8e8e93;font-weight:600">Conversations</span></div>
+    <div class="abs" style="left:0;top:56px;width:380px;height:724px;overflow:hidden;border-right:1px solid #2c2c2e" id="list">
+      <div class="abs" id="sel" style="left:0;top:0;width:380px;height:104px;background:#2c2c2e;opacity:0"></div>
+      ${MSG.map((m,i)=>`<div class="row" id="r${i}"><div class="av" style="background:${m[2]}">${m[1]}</div><div><div class="rname">${m[0]}<span class="tag" style="background:${m[4]}">${m[3]}</span></div><div class="rprev">${m[5]}</div></div></div>`).join('')}
+    </div>
+    <div class="abs" style="left:380px;top:56px;width:540px;height:724px" id="conv">
+      <div class="abs" id="ch" style="left:0;top:0;width:540px;height:90px;border-bottom:1px solid #2c2c2e;display:flex;align-items:center;gap:16px;padding:0 28px">
+        <div class="av" style="background:#a259ff;width:50px;height:50px;font-size:20px">WV</div>
+        <div style="font-size:24px;font-weight:650">Website visitor</div><span class="tag" style="background:#a259ff">Live chat</span></div>
+      <div class="bub in" id="m0" style="left:28px;top:130px">Do you service the Westside?</div>
+      <div class="bub out" id="m1" style="right:28px;top:250px">We do! Want me to book a free estimate this week?</div>
+      <div class="bub in" id="m2" style="left:28px;top:410px">Yes please. Thursday works.</div>
+    </div>
+  </div>`,
+  update(t,$){
+    R($('#i0'),t,.3); R($('#i1'),t,.5); R($('#i2'),t,.8); R($('#i3'),t,1.4);
+    const w=P(t,.6,2,E.out); S($('#iw'),{o:P(t,.6,1.4),y:(1-w)*80,s:lerp(.96,1,w)});
+    const arr=MSG.map((m,i)=>2.4+i*1.0);
+    MSG.forEach((m,i)=>{
+      let y=0; for(let j=i+1;j<MSG.length;j++) y+=P(t,arr[j],arr[j]+.6,E.out)*104;
+      const k=P(t,arr[i],arr[i]+.6,E.out);
+      S($('#r'+i),{o:k,x:(1-k)*-30,y:y});
+    });
+    $('#sel').style.opacity=P(t,9.4,9.8).toFixed(3);
+    S($('#ch'),{o:P(t,9.6,10.2)});
+    R($('#m0'),t,10.1,1e9,{dy:20,blur:6,d:.7}); R($('#m1'),t,11.8,1e9,{dy:20,blur:6,d:.7}); R($('#m2'),t,13.6,1e9,{dy:20,blur:6,d:.7});
+  }});
+
+/* 6. Follow-up */
+addScene({dur:16,theme:'light',html:`
+  <div class="abs" style="left:160px;top:300px;width:900px">
+    <div class="eyebrow grad" id="u0">Automated Follow-up</div>
+    <div class="h1" id="u1">Missed a call?</div>
+    <div class="h1 grad" id="u2">It texts back.</div>
+    <div class="sub" id="u3" style="margin-top:34px;width:780px">Follow-up sequences keep every lead warm, from the first call to the signed quote.</div>
+  </div>
+  <div class="phone" id="ph" style="left:1240px;top:100px"><div class="screen">
+    <div class="island"></div>
+    <div class="abs" id="callA" style="inset:0;background:linear-gradient(#2c2c2e,#000);color:#fff;text-align:center">
+      <div style="margin-top:190px;font-size:26px;color:#aaa;font-weight:500" id="ca1">Incoming call</div>
+      <div style="margin-top:14px;font-size:44px;font-weight:600">(555) 014-2290</div>
+      <div style="margin-top:20px;font-size:28px;font-weight:700;color:#ff453a" id="ca2">Missed Call</div>
+      <div class="abs" id="ring" style="left:155px;top:620px;width:96px;height:96px;border-radius:50%;background:#30d158"></div>
+    </div>
+    <div class="abs" id="callB" style="inset:0;background:#fff">
+      <div style="height:150px;border-bottom:1px solid #e5e5ea;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:16px">
+        <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#2997ff,#a259ff)"></div>
+        <div style="font-size:20px;font-weight:600;color:#000;margin-top:8px">Your Business</div></div>
+      <div class="abs" id="auto" style="left:0;width:398px;top:176px;text-align:center"><span class="pill" style="background:#f2f2f7;color:#6e6e73;font-size:17px">Sent automatically</span></div>
+      <div class="pbub in" id="t0" style="top:230px">Sorry we missed your call! How can we help today?</div>
+      <div class="pbub out" id="t1" style="top:360px">Need a quote for a new water heater.</div>
+      <div class="pbub in" id="t2" style="top:460px">Happy to help. Pick a time that works and we'll come take a look.</div>
+      <div class="abs" id="t3" style="left:22px;top:590px;width:300px;height:64px;border-radius:18px;background:#f2f2f7;display:flex;align-items:center;padding:0 18px;gap:12px;font-size:19px;font-weight:600;color:#0a84ff">${ICONS.cal.replace('<svg','<svg style="width:30px;height:30px"')}Book a time</div>
+    </div>
+  </div></div>`,
+  update(t,$){
+    R($('#u0'),t,.3); R($('#u1'),t,.5); R($('#u2'),t,5.4,1e9,{d:1.3}); R($('#u3'),t,7.4);
+    const w=P(t,.4,1.8,E.out); S($('#ph'),{o:P(t,.4,1.2),y:(1-w)*120});
+    // ringing, then missed, then switch to messages
+    const ringing=1-P(t,3,3.2);
+    S($('#ring'),{o:ringing,s:1+Math.max(0,Math.sin(t*9))*.08*ringing});
+    S($('#ca1'),{o:ringing}); S($('#ca2'),{o:P(t,3.1,3.4)});
+    const sw=P(t,4.6,5.3,E.inOut);
+    S($('#callA'),{o:1-sw}); S($('#callB'),{o:sw,s:lerp(.96,1,sw)});
+    S($('#auto'),{o:P(t,5.6,6.1)});
+    R($('#t0'),t,5.9,1e9,{dy:16,blur:4,d:.6,s0:.9});
+    R($('#t1'),t,8.6,1e9,{dy:16,blur:4,d:.6,s0:.9});
+    R($('#t2'),t,10.6,1e9,{dy:16,blur:4,d:.6,s0:.9});
+    R($('#t3'),t,11.6,1e9,{dy:16,blur:4,d:.6,s0:.9});
+  }});
+
+/* 7. Pipeline */
+const COLS=['New Lead','Quote Sent','Booked','Won'];
+const CARDS={kit:['Kitchen remodel','Ana L.'],roof:['Roof inspection','Tom B.'],ac:['AC tune-up','Lee W.'],
+  bath:['Bathroom refresh','Kim P.'],deck:['Deck repair','Raj S.'],wh:['Water heater','Mia C.'],patio:['Patio install','Ben O.']};
+const STATES=[
+  [0,[['kit','roof','ac'],['bath','deck'],['wh'],['patio']]],
+  [4.2,[['kit','ac'],['roof','bath','deck'],['wh'],['patio']]],
+  [6.8,[['kit','ac'],['roof','bath','deck'],[],['wh','patio']]],
+  [9.4,[['kit','ac'],['roof','bath'],['deck'],['wh','patio']]]
+];
+const pos=(state,id)=>{for(let c=0;c<4;c++){const r=state[1][c].indexOf(id);if(r>=0)return[c,r]}};
+const COLX=c=>(1920-(4*400+3*30))/2+c*430, COLY=400;
+addScene({dur:16,theme:'dark',html:`
+  <div class="abs center eyebrow grad" id="k0" style="top:90px">Pipelines</div>
+  <div class="abs center h2" id="k1" style="top:146px">See every deal. <span class="muted">Know what's next.</span></div>
+  ${COLS.map((c,i)=>`<div class="col" id="col${i}" style="left:${COLX(i)}px;top:${COLY}px"><div class="colh">${c}<span class="cnt" id="cn${i}">0</span></div></div>`).join('')}
+  ${Object.entries(CARDS).map(([id,c])=>`<div class="kcard" id="k_${id}" style="left:0;top:0"><div class="t">${c[0]}</div><div class="m"><span>${c[1]}</span><span id="ks_${id}"></span></div>${id==='bath'?'<div class="flag" id="flag">No reply in 3 days · follow-up sent</div>':''}</div>`).join('')}`,
+  update(t,$){
+    R($('#k0'),t,.3); R($('#k1'),t,.5);
+    COLS.forEach((c,i)=>{const k=P(t,1+i*.15,2+i*.15,E.out);S($('#col'+i),{o:k,y:(1-k)*50});});
+    let si=0; for(let i=0;i<STATES.length;i++) if(t>=STATES[i][0]) si=i;
+    Object.keys(CARDS).forEach((id,n)=>{
+      const cur=pos(STATES[si],id), nxt=STATES[si+1]?pos(STATES[si+1],id):cur, prev=si>0?pos(STATES[si-1],id):cur;
+      const k=si>0?P(t,STATES[si][0],STATES[si][0]+1.1,E.inOut):1;
+      const x=lerp(COLX(prev[0]),COLX(cur[0]),k)+20, y=lerp(COLY+86+prev[1]*134,COLY+86+cur[1]*134,k);
+      const moving=prev[0]!==cur[0]?Math.sin(Math.PI*k):0;
+      const intro=P(t,1.6+n*.12,2.4+n*.12,E.out);
+      const el=$('#k_'+id); el.style.left=x+'px'; el.style.top=y+'px';
+      el.style.zIndex=moving>0?5:1;
+      el.style.boxShadow=moving>0?`0 ${30*moving}px ${60*moving}px rgba(0,0,0,.6)`:'none';
+      el.style.borderColor=moving>0?'#4a4a50':'#2e2e32';
+      S(el,{o:intro,y:(1-intro)*30,s:1+moving*.06,r:moving*2});
+    });
+    STATES[si][1].forEach((c,i)=>$('#cn'+i).textContent=c.length);
+    const f=P(t,11.4,12.2,E.back); S($('#flag'),{o:P(t,11.4,11.8),s:lerp(.7,1,f)});
+    $('#k_bath').style.borderColor=t>11.4?'#ff9f0a':$('#k_bath').style.borderColor;
+  }});
+
+/* 8. Booking */
+const DAYS=['Mon','Tue','Wed','Thu','Fri'];
+const EV=[ // day, startHour(9=0), len, label, isNew, time
+  [0,0,1.5,'Estimate · Ana',0],[1,2,1,'Install · Ben',0],[3,1,1,'Tune-up · Lee',0],[4,4,1.5,'Repair · Raj',0],[2,5,1,'Consult · Kim',0],
+  [1,4.5,1,'New · Jess',1,3.2],[4,1.5,1,'New · Carlos',1,4.6],[3,5.5,1,'New · Website visitor',1,6.0]
+];
+addScene({dur:12,theme:'light',html:`
+  <div class="abs" style="left:140px;top:330px;width:640px">
+    <div class="eyebrow grad" id="c0">Calendars & Booking</div>
+    <div class="h2" id="c1">Booking that<br>runs itself.</div>
+    <div class="sub" id="c2" style="margin-top:34px">Customers pick a time online. It lands right on your calendar.</div>
+  </div>
+  <div class="cal" id="cal" style="left:820px;top:150px;width:960px;height:780px">
+    <div style="position:absolute;left:40px;top:34px;font-size:34px;font-weight:700;color:#1d1d1f">This week</div>
+    ${DAYS.map((d,i)=>`<div class="abs" style="left:${120+i*164}px;top:100px;width:164px;text-align:center;font-size:22px;font-weight:600;color:#86868b">${d}</div>`).join('')}
+    ${[...Array(8)].map((_,h)=>`<div class="abs" style="left:40px;top:${150+h*74}px;width:880px;border-top:1px solid #ececf0"></div><div class="abs" style="left:40px;top:${158+h*74}px;font-size:18px;color:#aeaeb2;font-weight:500">${((h+8)%12)+1}${h+9<12?'am':'pm'}</div>`).join('')}
+    ${EV.map((e,i)=>`<div class="evt" id="e${i}" style="left:${124+e[0]*164}px;top:${152+e[1]*74}px;width:156px;height:${e[2]*74-6}px;${e[4]?'background:linear-gradient(135deg,#2997ff,#a259ff);color:#fff':'background:#eef4ff;color:#2a5bd7'}">${e[3]}</div>`).join('')}
+  </div>
+  <div class="toast" id="toast" style="left:1340px;top:84px"><div class="check">${checkSvg}</div><div>New booking confirmed<div style="font-size:19px;color:#aeaeb2;font-weight:500;margin-top:4px">Thursday · 2:30 PM</div></div></div>`,
+  update(t,$){
+    R($('#c0'),t,.3); R($('#c1'),t,.5); R($('#c2'),t,1.2);
+    const w=P(t,.4,1.8,E.out); S($('#cal'),{o:P(t,.4,1.1),y:(1-w)*80});
+    EV.forEach((e,i)=>{
+      if(e[4]){const k=P(t,e[5],e[5]+.7,E.back);S($('#e'+i),{o:P(t,e[5],e[5]+.3),s:lerp(.5,1,k)});}
+      else S($('#e'+i),{o:P(t,1.2+i*.1,1.8+i*.1)});
+    });
+    const k=P(t,7.2,8,E.out); S($('#toast'),{o:P(t,7.2,7.6),y:(1-k)*-40,s:lerp(.9,1,k)});
+  }});
+
+/* 9. Reviews */
+const REPLY="Thank you, Jordan! We're so glad the team made it easy. See you next time.";
+addScene({dur:16,theme:'dark',html:`
+  <div class="abs center eyebrow grad" id="v0" style="top:90px">Reputation</div>
+  <div class="abs center h2" id="v1" style="top:146px">More 5-star reviews.</div>
+  <div class="rcard" id="rc0" style="left:150px;top:360px">
+    <div class="rlabel">1 · Ask</div>
+    <div class="bub in" style="position:relative;max-width:440px;font-size:27px">Thanks for choosing us today! Would you share a quick review?</div>
+    <div class="pill" style="margin-top:30px;background:#2c2c2e;color:#8e8e93">Sent by text, at the right moment</div>
+  </div>
+  <div class="rcard" id="rc1" style="left:700px;top:360px">
+    <div class="rlabel">2 · Review</div>
+    <div class="stars">${[0,1,2,3,4].map(i=>`<div id="st${i}">${star('#ffd60a')}</div>`).join('')}</div>
+    <div style="font-size:30px;font-weight:600;line-height:1.35">"Fast, friendly, and right on time. Highly recommend."</div>
+    <div style="margin-top:18px;font-size:22px;color:#8e8e93">Jordan P.</div>
+  </div>
+  <div class="rcard" id="rc2" style="left:1250px;top:360px">
+    <div class="rlabel" style="display:flex;gap:10px;align-items:center"><span>3 · Reply</span><span class="pill grad" style="padding:0;font-size:22px">AI-drafted</span></div>
+    <div id="rtxt" style="font-size:27px;font-weight:500;line-height:1.4;height:150px;color:#e5e5ea"></div>
+    <div class="btn" id="appr" style="margin-top:30px;background:#f5f5f7;color:#000">Approve</div>
+  </div>
+  <div class="abs center sub" id="v2" style="top:830px">Ask happy customers at the right moment. Approve AI-drafted replies before they post.</div>`,
+  update(t,$){
+    R($('#v0'),t,.3); R($('#v1'),t,.5);
+    [0,1,2].forEach(i=>{const a=1.3+i*2.6,k=P(t,a,a+1.1,E.out);S($('#rc'+i),{o:P(t,a,a+.6),y:(1-k)*80});});
+    [0,1,2,3,4].forEach(i=>{const a=4.4+i*.18,k=P(t,a,a+.5,E.back);S($('#st'+i),{o:P(t,a,a+.2),s:lerp(.3,1,k)});});
+    const n=Math.floor(P(t,7.3,10,E.lin)*REPLY.length); $('#rtxt').textContent=REPLY.slice(0,n)+(n<REPLY.length&&t>7.3?'▍':'');
+    const press=P(t,10.6,10.8)*(1-P(t,10.8,11.1)), done=t>=10.9;
+    const b=$('#appr'); S(b,{s:1-press*.08});
+    b.innerHTML=done?`${checkSvg} Posted`:'Approve';
+    b.style.background=done?'#30d158':'#f5f5f7'; b.style.color=done?'#fff':'#000';
+    R($('#v2'),t,12);
+  }});
+
+/* 10. AI Employee */
+const CHAT=[['in','Hi! Do you have anything open Thursday?',2.0],['ai','Yes! I have 10:00 AM or 2:30 PM. Which works best?',4.4,3.4],
+  ['in','2:30 works.',6.6],['ai',"You're all set for Thursday at 2:30 PM. A confirmation text is on its way.",8.8,7.8]];
+addScene({dur:16,theme:'dark',html:`
+  <div class="abs" id="orb" style="left:1010px;top:150px;width:780px;height:780px;border-radius:50%;background:conic-gradient(from 0deg,#2997ff,#a259ff,#ff5ca8,#ff9f0a,#2997ff);filter:blur(70px)"></div>
+  <div class="abs" style="left:140px;top:320px;width:760px">
+    <div class="eyebrow grad" id="a0">AI Employee</div>
+    <div class="h2" id="a1">Meet your newest<br>team member.</div>
+    <div class="sub" id="a2" style="margin-top:34px">Answers questions, captures leads, and books appointments. Day or night.</div>
+  </div>
+  <div class="glass" id="chat" style="left:1040px;top:150px;width:720px;height:780px">
+    <div style="height:100px;display:flex;align-items:center;gap:18px;padding:0 36px;border-bottom:1px solid rgba(255,255,255,.1)">
+      <div style="width:52px;height:52px;border-radius:50%;background:conic-gradient(#2997ff,#a259ff,#ff5ca8,#2997ff)"></div>
+      <div><div style="font-size:24px;font-weight:650">AI Employee</div><div style="font-size:18px;color:#30d158;font-weight:600">● Online 24/7</div></div></div>
+    ${CHAT.map((c,i)=>`<div class="bub ${c[0]==='in'?'out':'in'}" id="h${i}" style="${c[0]==='in'?'right:36px':'left:36px'};top:${[130,250,390,500][i]}px">${c[1]}</div>${c[3]?`<div class="typing" id="ty${i}" style="top:${[130,250,390,500][i]}px"><b></b><b></b><b></b></div>`:''}`).join('')}
+    <div class="abs" id="bk" style="left:0;width:720px;top:690px;text-align:center"><span class="pill" style="background:rgba(48,209,88,.16);color:#30d158">${checkSvg.replace('#fff','#30d158')} Appointment booked</span></div>
+  </div>`,
+  update(t,$){
+    S($('#orb'),{o:P(t,0,2)*.55*(1+.08*Math.sin(t*1.3)),r:t*14,s:1+.05*Math.sin(t*.9)});
+    R($('#a0'),t,.3); R($('#a1'),t,.5); R($('#a2'),t,1.4);
+    const w=P(t,.8,2.2,E.out); S($('#chat'),{o:P(t,.8,1.5),y:(1-w)*80});
+    CHAT.forEach((c,i)=>{
+      R($('#h'+i),t,c[2],1e9,{dy:18,blur:5,d:.6,s0:.94});
+      if(c[3]!==undefined){const ty=$('#ty'+i), on=P(t,c[3],c[3]+.2)*(1-P(t,c[2]-.1,c[2]));
+        ty.style.opacity=on.toFixed(3);
+        [...ty.children].forEach((b,j)=>b.style.opacity=(.35+.65*Math.max(0,Math.sin(t*7-j*.9))).toFixed(3));}
+    });
+    const k=P(t,10.4,11.2,E.back); S($('#bk'),{o:P(t,10.4,10.8),s:lerp(.7,1,k)});
+  }});
+
+/* 11. Onboarding */
+addScene({dur:14,theme:'light',html:`
+  <div class="abs center eyebrow grad" id="o0" style="top:110px">Your first week</div>
+  <div class="abs center h2" id="o1" style="top:166px">You're not doing this alone.</div>
+  <div class="ocard" id="oc0" style="left:250px;top:380px"><div class="onum grad">Call 01</div><div class="otitle">Tech Setup</div><div class="otext">We configure everything with you, 1-on-1 over Zoom.</div></div>
+  <div class="ocard" id="oc1" style="left:990px;top:380px"><div class="onum grad">Call 02</div><div class="otitle">Training</div><div class="otext">Learn the daily workflow your team will use.</div></div>
+  <div class="abs" id="o2" style="left:0;width:1920px;top:800px;display:flex;justify-content:center;gap:70px">
+    <div class="tick" id="ot0"><div class="check">${checkSvg}</div>Both calls recorded and sent to you</div>
+    <div class="tick" id="ot1"><div class="check">${checkSvg}</div>Bi-weekly live office hours</div>
+  </div>`,
+  update(t,$){
+    R($('#o0'),t,.3); R($('#o1'),t,.5);
+    [0,1].forEach(i=>{const a=1.8+i*.6,k=P(t,a,a+1.2,E.out);S($('#oc'+i),{o:P(t,a,a+.6),y:(1-k)*90,s:lerp(.95,1,k)});});
+    R($('#ot0'),t,5.2,1e9,{dy:24}); R($('#ot1'),t,5.8,1e9,{dy:24});
+  }});
+
+/* 12. Simple */
+addScene({dur:10,theme:'dark',html:`
+  <div class="abs" id="sw" style="left:0;top:0;width:1920px;height:1080px">
+  <div class="abs center h1" id="s0" style="top:250px;font-size:150px">Unlimited users.</div>
+  <div class="abs center h1 muted" id="s1" style="top:430px;font-size:150px">No contracts.</div>
+  <div class="abs center h1 grad" id="s2" style="top:610px;font-size:150px">One platform.</div></div>`,
+  update(t,$){
+    S($('#sw'),{s:lerp(1,1.05,P(t,0,10,E.lin))});
+    R($('#s0'),t,.4,1e9,{d:1.3}); R($('#s1'),t,1.7,1e9,{d:1.3}); R($('#s2'),t,3.0,1e9,{d:1.3});
+  }});
+
+/* 13. CTA */
+addScene({dur:12,theme:'dark',fadeOut:1.6,html:`
+  <div class="glow" id="g13" style="left:310px;top:40px;width:1300px;height:1300px;background:radial-gradient(circle,rgba(162,89,255,.32),rgba(41,151,255,.16) 42%,transparent 70%)"></div>
+  <div class="abs center h1" id="z0" style="top:250px">Ready to see it<br><span class="grad">in action?</span></div>
+  <div class="abs center" id="z1" style="top:640px"><span class="btn" style="height:96px;padding:0 60px;border-radius:48px;font-size:40px;background:#f5f5f7;color:#000">Book your demo</span></div>
+  <div class="abs center sub" id="z2" style="top:780px;font-size:44px;color:#f5f5f7">getpinnacle.ai</div>
+  <div class="abs center" id="z3" style="top:960px;font-size:30px;font-weight:700;letter-spacing:-0.02em;color:#86868b">Pinnacle Ai</div>`,
+  update(t,$){
+    S($('#g13'),{o:P(t,0,3)*.9,s:lerp(.6,1,P(t,0,8,E.out))});
+    R($('#z0'),t,.4,1e9,{d:1.4}); R($('#z1'),t,3.2,1e9,{s0:.9}); R($('#z2'),t,3.8); R($('#z3'),t,5);
+  }});
+
+/* ---------- assembly ---------- */
+const stage=document.getElementById('stage');
+let acc=0;
+SCENES.forEach((sc,i)=>{
+  sc.start=acc; acc+=sc.dur;
+  const el=document.createElement('div'); el.className='scene '+sc.theme; el.innerHTML=sc.html; stage.appendChild(el);
+  sc.el=el; sc.$=q=>el.querySelector(q);
+});
+const DURATION=acc;
+const FADE=.55;
+function renderAt(T){
+  for(const sc of SCENES){
+    const t=T-sc.start;
+    if(t<0||t>sc.dur){sc.el.style.display='none';continue;}
+    sc.el.style.display='block';
+    const fo=sc.fadeOut||FADE;
+    sc.el.style.opacity=(P(t,0,FADE,E.inOut)*(1-P(t,sc.dur-fo,sc.dur,E.inOut))).toFixed(4);
+    sc.update(t,sc.$);
+  }
+}
+window.renderAt=renderAt; window.DURATION=DURATION;
+
+/* ---------- preview player ---------- */
+const isRender=new URLSearchParams(location.search).has('render');
+function fit(){const s=isRender?1:Math.min(innerWidth/1920,(innerHeight-(isRender?0:50))/1080);stage.style.transform=`scale(${s})`;stage.style.left=((innerWidth-1920*s)/2)+'px';}
+addEventListener('resize',fit); fit();
+if(isRender){document.body.classList.add('render');renderAt(0);}
+else{
+  let T=parseFloat(new URLSearchParams(location.search).get('t')||0), playing=true, last=performance.now();
+  const scrub=document.getElementById('scrub'), tc=document.getElementById('tc'), btn=document.getElementById('play');
+  const fmt=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+  btn.onclick=()=>{playing=!playing;btn.textContent=playing?'Pause':'Play'};
+  scrub.oninput=()=>{T=scrub.value/1000*DURATION};
+  addEventListener('keydown',e=>{if(e.code==='Space'){btn.click();e.preventDefault()} if(e.code==='ArrowRight')T=Math.min(DURATION,T+5); if(e.code==='ArrowLeft')T=Math.max(0,T-5);});
+  (function loop(now){const dt=(now-last)/1000;last=now;if(playing){T+=dt;if(T>DURATION)T=0;}
+    renderAt(T);scrub.value=T/DURATION*1000;tc.textContent=`${fmt(T)} / ${fmt(DURATION)}`;requestAnimationFrame(loop);})(last);
+}
+</script>
+</body>
+</html>
